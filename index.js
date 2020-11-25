@@ -25,5 +25,27 @@ function autenticar() {
     };
 
     // passo 4 - enviar a requisição para o back-end
-    fetch("http://localhost:8080/login",cabecalho).then(resposta => console.log(resposta));
+    fetch("http://localhost:8080/login",cabecalho).then(resposta => trataResposta(resposta));
+}
+
+function trataResposta(resposta){
+    if (resposta.status == 200){
+        resposta.json().then(user => efetivaLogin(user))
+    }else if (resposta.status == 401){
+        //document.getElementsById("unauthorized").style.display = "true"
+        document.getElementById("msg").innerHTML = "Senha Incorreta";
+
+    }else if (resposta.status == 404){
+        document.getElementById("msg").innerHTML = "Usuario não encontrado";
+    }else{
+
+    }
+}
+
+function efetivaLogin(user){
+    console.log("usuario recebido");
+    console.log(user);
+    localStorage.setItem("userSCHED",JSON.stringify(user));
+    // redirecionar para pagina relatorio
+    window.location = "relatorio.html";
 }
