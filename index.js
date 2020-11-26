@@ -33,11 +33,18 @@ function trataResposta(resposta){
         resposta.json().then(user => efetivaLogin(user))
     }else if (resposta.status == 401){
         //document.getElementsById("unauthorized").style.display = "true"
-        document.getElementById("msg").innerHTML = "Senha Incorreta";
+        document.getElementById("msg").innerHTML = `<div class="alert alert-danger" role="alert">
+        Senha incorreta
+      </div>`;
 
     }else if (resposta.status == 404){
-        document.getElementById("msg").innerHTML = "Usuario não encontrado";
+        document.getElementById("msg").innerHTML = `<div class="alert alert-danger" role="alert">
+        Usuario nao encontrado
+      </div>`;
     }else{
+        document.getElementById("msg").innerHTML = `<div class="alert alert-danger" role="alert">
+        Erro desconhecido
+      </div>`;
 
     }
 }
