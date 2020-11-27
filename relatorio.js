@@ -1,4 +1,7 @@
+var listaCSV;
+
 function validaUser(){
+
 
     var user = localStorage.getItem("userSCHED");
 
@@ -9,7 +12,7 @@ function validaUser(){
     var userObj = JSON.parse(user); // "desconverto" a String JSON para um objeto javascript
 
     document.getElementById("fotoUser").innerHTML = `<img src="${userObj.linkFoto}" width="100%">`;
-    document.getElementById("bioUser").innerHTML = `<h4> ${userObj.nome} </h4>
+    document.getElementById("bioUser").innerHTML = `<p> ${userObj.nome} </p>
                                                     <p> Email: ${userObj.email} </p>
                                                     <p> Racf : ${userObj.racf} </p>
                                                     `;
@@ -86,6 +89,7 @@ function gerarRelatorio(){
 }
 
 function preencheRelatorio(lista){
+    listaCSV = lista;
     var rel = "";
     for (i=0; i<lista.length; i++){
         var ag = lista[i];
@@ -115,14 +119,33 @@ function preencheRelatorio(lista){
                     </div>`;
     }
     document.getElementById("relatorio").innerHTML = rel;
+    document.getElementById("btnPDF").style="visibility: visible;";
+    document.getElementById("btnCSV").style="visibility: visible;";
 
+}
+function gerarPDF(){
+    window.print();
+}
+function gerarCSV(){
+    var strCSV = "";
+    for (i=0;i<listaCSV.length; i++){
+        var ag = listaCSV[i];
+        strCSV = strCSV + ag.dataAgendamento + ";" +
+                          ag.horaAgendamento + ";" +
+                          ag.agencia.nome + ";" +
+                          ag.nomeCliente + ";" +
+                          ag.emailCliente + ";" +
+                          ag.celularCliente + ";" +
+                          ag.observacao + "\n";
+    }
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=iso9660,' + encodeURI(strCSV);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = 'agendamentos.csv';
+    hiddenElement.click();
 }
 
 function logout(){
     localStorage.removeItem("userSCHED");
    window.location = "index.html";
   }
-
-  function gerarPDF(){
-    window.print();
-}

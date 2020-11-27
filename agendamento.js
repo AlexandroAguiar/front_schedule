@@ -87,6 +87,63 @@ function cadastrar(){
 
     fetch("http://localhost:8080/novoagendamento",cabecalho)
         .then(res => trataResultado(res));
+    
+    window.location = "agendamento.html";
+}
+
+function validaDados(){
+
+    var txtNomeCli  = document.getElementById("txtNome").value;
+    var txtEmailCli = document.getElementById("txtEmail").value;
+    var txtCelCli   = document.getElementById("txtTelefone").value;
+    var txtDataCli  = document.getElementById("txtData").value;
+    var txtAgencia  = document.getElementById("txtAgencia").value;
+    var txtHoraIni  = document.getElementById("txtHoraInicio").value;
+    
+    if (txtNomeCli == "") {
+        alert("O campo Nome do Cliente é obrigatório!!!");
+        document.getElementById("txtNome").focus()
+        return false;
+
+    }
+
+    if (txtEmailCli == "" || txtEmailCli.indexOf("@")== -1) {
+        alert("Email não é válido");
+        document.getElementById("txtEmail").focus();
+        return false;
+
+    }
+
+    if (txtCelCli == "" || isNaN(txtCelCli)) {
+        alert("Telefone não é válido");
+        document.getElementById("txtTelefone").focus();
+        return false;
+
+    }
+
+    if (txtAgencia == "" ) {
+        alert("Agencia não pode ser em branco");
+        document.getElementById("txtAgencia").focus();
+        return false;
+
+    }
+
+    if (txtData == "" ) {
+        alert("Data não pode ser em branco");
+        document.getElementById("txtData").focus();
+        return false;
+
+    }
+
+
+    if (txtHoraIni == "" ) {
+        alert("Hora não pode ser em branco");
+        document.getElementById("HoraInicio").focus();
+        return false;
+
+    }
+
+    cadastrar()
 }
 
 function trataResultado(res){
@@ -97,13 +154,22 @@ function trataResultado(res){
         alert("ERRO ao atender solicitacao");
     }
 }
+function validarDate(data){
+    var d1 = new Date();
+    d1.setDate(d1.getDate() + 1);
+    var valida = Data.parse(data);
+    alert(valida);
+    if(valida<=d1){
+        alert("Data invalida - Favor digitar data D+1");
+    }
+}
 
 function limitDate(){
     var d1 = new Date();
     d1.setDate(d1.getDate() + 1);
     var amanha = formatDate(d1);
     
-    document.getElementById("dataAgenda").innerHTML = `<input type="date" class="form-control" id="txtData" name="trip-start" min="${amanha}" value="${amanha}">`
+    document.getElementById("dataAgenda").innerHTML = `<input type="date" class="form-control" id="txtData" name="trip-start" min="${amanha}" value="${amanha}" onfocusout="validarDate(this.value)">`
 }
 
 function formatDate(date) {
