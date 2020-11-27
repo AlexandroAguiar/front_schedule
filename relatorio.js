@@ -1,8 +1,8 @@
-function validaUser() {
+function validaUser(){
 
     var user = localStorage.getItem("userSCHED");
 
-    if (!user) {  //se o objeto nao existe no localStorage, redireciona para o index
+    if (!user){  //se o objeto nao existe no localStorage, redireciona para o index
         window.location = "index.html";
     }
 
@@ -17,7 +17,7 @@ function validaUser() {
 }
 
 
-function carregaAgencias() {
+function carregaAgencias(){
     // 
 
     /*
@@ -27,54 +27,62 @@ function carregaAgencias() {
     preenche(lista);
     */
     fetch("http://localhost:8080/agencias")
-        .then(res => res.json())   // se eu receber uma resposta, vou ter q extrair o JSON da resposta
-        .then(lista => preenche(lista)) // se der cert, passo isso para uma função que irá gerar dinamicamente meu select
+         .then(res => res.json())   // se eu receber uma resposta, vou ter q extrair o JSON da resposta
+         .then(lista => preenche(lista)) // se der cert, passo isso para uma função que irá gerar dinamicamente meu select
 }
 
-function preenche(lista) {
+function preenche(lista){
 
     var htmlSelect = `<select id="txtAgencia" class="form-control" oninput="montahoras()">`;
 
-    for (i = 0; i < lista.length; i++) {
+    for (i=0; i<lista.length; i++){
         var ag = lista[i]; // apenas para facilitar a manipulacao
         htmlSelect = htmlSelect + `<option value="${ag.id}">${ag.nome}</option>`;
     }
     htmlSelect = htmlSelect + `</select>`;
-    document.getElementById("selectAgencia").innerHTML = htmlSelect;
+    document.getElementById("selectAgencia").innerHTML =htmlSelect;
 }
 
-function gerarRelatorio() {
+function gerarRelatorio(){
     // antes de mais nada....
     var opcao = 0;
     var opAg, opData, opCli;
-    if (document.getElementById("chkAgencia").checked) {
+    var paramData = "0000-00-00";
+    var paramNome = "***";
+    var paramAgen = 0;
+    if (document.getElementById("chkAgencia").checked){
         opAg = 1;
+        paramAgen = parseInt(document.getElementById("txtAgencia").value);
     }
-    else {
+    else{
         opAg = 0;
     }
 
-    if (document.getElementById("chkData").checked) {
+    if (document.getElementById("chkData").checked){
         opData = 2;
+        paramData = document.getElementById("txtData").value;
     }
-    else {
+    else{
         opData = 0;
     }
 
-    if (document.getElementById("chkCliente").checked) {
+    if (document.getElementById("chkCliente").checked){
         opCli = 4;
+        paramNome = document.getElementById("txtCliente").value;
     }
-    else {
+    else{
         opCli = 0;
     }
 
     opcao = opAg + opData + opCli;
-    console.log("Opcao selecionada = " + opcao);
+    console.log("Opcao selecionada = "+opcao);
 
-    fetch("http://localhost:8080/agendamentos")
-        .then(res => res.json())
-        .then(lista => preencheRelatorio(lista));
+    var url = "http://localhost:8080/agendamentos?mode="+opcao+"&dataAg="+paramData+"&idAgencia="+paramAgen+"&nome="+paramNome;
+    console.log(url);
 
+    fetch(url)
+      .then(res => res.json())
+      .then(lista => preencheRelatorio(lista));
 }
 
 function preencheRelatorio(lista){

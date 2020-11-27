@@ -12,23 +12,9 @@ function carregaAgencias(){
          .then(lista => preenche(lista)) // se der cert, passo isso para uma função que irá gerar dinamicamente meu select
 }
 
-function carregaAgencias(){
-    // 
-
-    /*
-    pensando "estruturado"
-    res = fetch("http://localhost:8080/agencias)
-    lista = res.json();
-    preenche(lista);
-    */
-    fetch("http://localhost:8080/agencias")
-         .then(res => res.json())   // se eu receber uma resposta, vou ter q extrair o JSON da resposta
-         .then(lista => preenche(lista)) // se der cert, passo isso para uma função que irá gerar dinamicamente meu select
-}
-
 function preenche(lista){
 
-    var htmlSelect = `<select id="txtAgencia" class="form-control" oninput="montahoras()"><option value=""></option>`;
+    var htmlSelect = `<select id="txtAgencia" class="form-control" oninput="montahoras()">`;
 
     for (i=0; i<lista.length; i++){
         var ag = lista[i]; // apenas para facilitar a manipulacao
@@ -36,6 +22,7 @@ function preenche(lista){
     }
     htmlSelect = htmlSelect + `</select>`;
     document.getElementById("selectAgencia").innerHTML =htmlSelect;
+    montahoras();
 }
 
 function montahoras(){
@@ -76,6 +63,7 @@ function cadastrar(){
     var txtAgencia  = document.getElementById("txtAgencia").value;
     var txtHoraIni  = document.getElementById("txtHoraInicio").value;
     var txtObs      = document.getElementById("txtObservacao").value;
+
 
     var msgBody = {
         nomeCliente : txtNomeCli,
