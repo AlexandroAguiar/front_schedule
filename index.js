@@ -56,3 +56,11 @@ function efetivaLogin(user){
     // redirecionar para pagina relatorio
     window.location = "relatorio.html";
 }
+
+function validalogout(){
+    var user = localStorage.getItem("userSCHED");
+    if(user!=null){
+        window.location = "relatorio.html";
+    }
+}
+

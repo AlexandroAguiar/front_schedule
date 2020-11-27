@@ -117,3 +117,12 @@ function preencheRelatorio(lista){
     document.getElementById("relatorio").innerHTML = rel;
 
 }
+
+function logout(){
+    localStorage.removeItem("userSCHED");
+   window.location = "index.html";
+  }
+
+  function gerarPDF(){
+    window.print();
+}

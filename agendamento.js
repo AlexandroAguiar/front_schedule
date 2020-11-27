@@ -97,3 +97,25 @@ function trataResultado(res){
         alert("ERRO ao atender solicitacao");
     }
 }
+
+function limitDate(){
+    var d1 = new Date();
+    d1.setDate(d1.getDate() + 1);
+    var amanha = formatDate(d1);
+    
+    document.getElementById("dataAgenda").innerHTML = `<input type="date" class="form-control" id="txtData" name="trip-start" min="${amanha}" value="${amanha}">`
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}

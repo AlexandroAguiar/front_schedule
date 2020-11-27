@@ -11,7 +11,7 @@
     <title>.: Agendamento :.</title>
 </head>
 
-<body onload="carregaAgencias()">
+<body onload="carregaAgencias(); limitDate()">
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
@@ -49,8 +49,9 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="txtData">Data</label>
-                    <input type="date" class="form-control" id="txtData">
-                  </div>
+                    <div id="dataAgenda"></div>
+                    <!-- <input type="date" class="form-control" id="txtData" name="trip-start" min="2020-11-28" value="2020-11-28"> -->
+                </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
